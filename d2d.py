@@ -21,7 +21,6 @@ def helloworld(resp):
     if resp.event.ready_supplemental:  # ready_supplemental is sent after ready
         user = bot.gateway.session.user
         print("Logged in as {}#{}".format(user['username'], user['discriminator']))
-    return
 
     if resp.event.message:
         m = resp.parsed.auto()
@@ -75,7 +74,7 @@ def helloworld(resp):
 
 if __name__ == '__main__':
     while True:
-        print("Staring bot...")
+        print("Starting bot...")
         try:
             bot.gateway.run(auto_reconnect=True)
         except:
