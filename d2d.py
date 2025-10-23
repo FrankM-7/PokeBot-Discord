@@ -4,6 +4,7 @@ import sys
 import discum
 
 from conf import TOKEN, TO_CHANNEL, FROM_CHANNELS, Verbose
+import requests
 
 bot = discum.Client(token=TOKEN, log=False)
 
@@ -12,6 +13,11 @@ def sigint_handler(signum, frame):
     print('Stop pressing the CTRL+C!')
     sys.exit(1)
 
+def send_embed_via_bot(embed):
+    requests.post(
+        "http://127.0.0.1:8080/send_embed",
+        json={"channel_id": TO_CHANNEL, "embed": embed}
+    )
 
 signal.signal(signal.SIGINT, sigint_handler)
 
@@ -41,6 +47,10 @@ def helloworld(resp):
         channelID = int(channelID)
 
         if channelID not in FROM_CHANNELS:
+            return
+
+        if embeds:
+            send_embed_via_bot(embeds[0])
             return
 
         if Verbose:
